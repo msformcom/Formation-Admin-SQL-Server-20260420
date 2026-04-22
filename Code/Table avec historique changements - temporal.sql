@@ -1,0 +1,21 @@
+-- Temporal Tables
+
+CREATE TABLE dbo.tbl_MyData (  
+Id INT PRIMARY KEY IDENTITY(1,1),
+Valeur INT,
+SysStartTime datetime2 GENERATED ALWAYS AS ROW START NOT NULL,  
+SysEndTime datetime2 GENERATED ALWAYS AS ROW END NOT NULL,  
+PERIOD FOR SYSTEM_TIME (SysStartTime,SysEndTime)  
+) WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.tbl_MyDataHistory)); 
+
+INSERT INTO tbl_MyData(Valeur) VALUES(5)
+
+UPDATE tbl_MyData SET Valeur=7 WHERE Id=2
+
+SELECT * FROM tbl_MyData
+
+SELECT * FROM tbl_MyDataHistory
+
+
+SELECT * FROM tbl_MyData
+FOR SYSTEM_TIME AS OF '2026-04-22 13:50:16.7178074'
